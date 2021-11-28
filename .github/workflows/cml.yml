@@ -55,5 +55,5 @@ jobs:
           echo "$FOREACH_ITEM_JSON" > item.json
           cml pr item.json
         env:
-          FOREACH_ITEM_JSON: ${{ toJson(matrix.item) }}
+          FOREACH_ITEM_JSON: ${{ matrix.item }}
           REPO_TOKEN: ${{ secrets.REPO_TOKEN }}
