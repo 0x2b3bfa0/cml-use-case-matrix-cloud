@@ -9,12 +9,11 @@ jobs:
       - id: matrix
         run: |
           python3 <<'END'
-          from json import load, dumps
-          from secrets import token_hex
-          from urllib.parse import quote
+          import json
+          import secrets
           with open("./matrix.json", "r") as file:
-              items = set(dumps(item, sort_keys=True) for item in load(file))
-              matrix = {token_hex(16): item for item in set(items)}
+              items = set(json.dumps(item, sort_keys=True) for item in json.load(file))
+              matrix = {secrets.token_hex(16): item for item in items}
               github_matrix = {
                   "runner": list(matrix.keys()),
                   "include": [
@@ -22,7 +21,7 @@ jobs:
                       for key, value in matrix.items()
                   ],
               }
-              output = dumps(github_matrix)
+              output = json.dumps(github_matrix)
               output = output.replace("%", "%25")
               output = output.replace("\r", "%0D")
               output = output.replace("\n", "%0A")
